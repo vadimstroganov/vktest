@@ -1,4 +1,4 @@
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+DirectorySlash Off
+RewriteCond %{REQUEST_URI} !=/index.php
+RewriteRule .* /index.php
