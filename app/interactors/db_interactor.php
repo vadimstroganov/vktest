@@ -25,7 +25,7 @@ function create_db_connection() {
 /**
  * Закрытие соединения с базой данных
  *
- * @param $connection Ссылка на соединение с базой данных
+ * @param mysqli $connection Ссылка на соединение с базой данных
  *
  * @return void
  */
