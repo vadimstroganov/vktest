@@ -15,4 +15,4 @@ const ROUTES = [
 ];
 
 header('Content-Type: application/json');
-open_url($_SERVER['REQUEST_URI']);
+open_url(strtok($_SERVER["REQUEST_URI"],'?'));
