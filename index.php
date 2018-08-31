@@ -11,7 +11,7 @@ include INTERACTORS_PATH . 'view_interactor.php';
 include INTERACTORS_PATH . 'db_interactor.php';
 
 const ROUTES = [
-  '/' => [ 'controller' => 'items', 'action' => 'index' ]
+  '/items' => [ 'controller' => 'items', 'action' => 'index' ]
 ];
 
 header('Content-Type: application/json');
