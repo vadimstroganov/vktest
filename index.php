@@ -9,6 +9,7 @@ define('VIEWS_PATH', DOCROOT . 'app/views/');
 include INTERACTORS_PATH . 'router_interactor.php';
 include INTERACTORS_PATH . 'view_interactor.php';
 include INTERACTORS_PATH . 'db_interactor.php';
+include INTERACTORS_PATH . 'error_interactor.php';
 
 const ROUTES = [
   '/items' => [ 'controller' => 'items', 'action' => 'index' ]
