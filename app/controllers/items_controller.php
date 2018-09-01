@@ -49,3 +49,23 @@ function create_action() {
     render_bad_request();
   }
 }
+
+function update_action() {
+  $id          = $_POST['id'];
+  $name        = $_POST['name'];
+  $description = $_POST['description'];
+  $cost        = $_POST['cost'];
+
+  if (empty($id)) {
+    render_bad_request();
+    die();
+  }
+
+  $item = item_update($id, $name, $cost, $description);
+
+  if (!empty($item['id'])) {
+    echo render('items/show', [ 'item' => $item ]);
+  } else {
+    render_bad_request();
+  }
+}

@@ -53,14 +53,42 @@ function item_create($name, $cost, $description = null, $image = null) {
   mysqli_query($connection, $sql);
   $insert_id = mysqli_insert_id($connection);
 
+  close_db_connection($connection);
+
   if (empty($insert_id)) {
     return [];
   }
 
-  close_db_connection($connection);
-
   return [
     'id'          => $insert_id,
+    'name'        => $name,
+    'description' => $description,
+    'image'       => $image
+  ];
+}
+
+function item_update($id, $name, $cost, $description = null, $image = null) {
+  $connection = create_db_connection();
+
+  // экранизация параметров
+  $id          = mysqli_real_escape_string($connection, $id);
+  $name        = mysqli_real_escape_string($connection, $name);
+  $cost        = mysqli_real_escape_string($connection, $cost);
+  $description = mysqli_real_escape_string($connection, $description);
+  $image       = mysqli_real_escape_string($connection, $image);
+
+  $sql = "UPDATE items SET name='$name', description='$description', cost='$cost', image='$image' WHERE id=$id";
+  $bool = mysqli_query($connection, $sql);
+
+  close_db_connection($connection);
+
+  // возвращаем пустой массив, если запрос завершился с ошибкой
+  if (!$bool) {
+    return [];
+  }
+
+  return [
+    'id'          => $id,
     'name'        => $name,
     'description' => $description,
     'image'       => $image

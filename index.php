@@ -13,7 +13,8 @@ include INTERACTORS_PATH . 'error_interactor.php';
 
 const ROUTES = [
   'GET /items'         => [ 'controller' => 'items', 'action' => 'index' ],
-  'POST /items/create' => [ 'controller' => 'items', 'action' => 'create' ]
+  'POST /items/create' => [ 'controller' => 'items', 'action' => 'create' ],
+  'POST /items/update' => [ 'controller' => 'items', 'action' => 'update' ]
 ];
 
 $request_method = $_SERVER['REQUEST_METHOD'];
