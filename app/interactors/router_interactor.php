@@ -9,7 +9,6 @@ function open_url($url) {
   if (!empty(ROUTES[$url])) {
     open_route(ROUTES[$url]);
   } else {
-    $route = [ 'controller' => 'errors', 'action' => 'not_found' ];
-    open_route($route);
+    render_not_found();
   }
 }
