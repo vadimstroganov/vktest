@@ -12,8 +12,12 @@ include INTERACTORS_PATH . 'db_interactor.php';
 include INTERACTORS_PATH . 'error_interactor.php';
 
 const ROUTES = [
-  '/items' => [ 'controller' => 'items', 'action' => 'index' ]
+  'GET /items'         => [ 'controller' => 'items', 'action' => 'index' ],
+  'POST /items/create' => [ 'controller' => 'items', 'action' => 'create' ]
 ];
 
+$request_method = $_SERVER['REQUEST_METHOD'];
+$request_url    = strtok($_SERVER['REQUEST_URI'], '?');
+
 header('Content-Type: application/json');
-open_url(strtok($_SERVER["REQUEST_URI"],'?'));
+open_url("{$request_method} {$request_url}");
