@@ -35,3 +35,17 @@ function index_action() {
   $items = items_get($limit, $offset, $sort_column, $sort_type);
   echo render('items/index', [ 'items' => $items ]);
 }
+
+function create_action() {
+  $name        = $_POST['name'];
+  $description = $_POST['description'];
+  $cost        = $_POST['cost'];
+
+  $item = item_create($name, $cost, $description);
+
+  if (!empty($item['id'])) {
+    echo render('items/show', [ 'item' => $item ]);
+  } else {
+    render_bad_request();
+  }
+}
