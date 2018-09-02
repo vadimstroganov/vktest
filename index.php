@@ -5,6 +5,7 @@ define('CONTROLLERS_PATH', DOCROOT . 'app/controllers/');
 define('INTERACTORS_PATH', DOCROOT . 'app/interactors/');
 define('MODELS_PATH', DOCROOT . 'app/models/');
 define('VIEWS_PATH', DOCROOT . 'app/views/');
+define('UPLOADERS_PATH', DOCROOT . 'app/uploaders/');
 
 include INTERACTORS_PATH . 'router_interactor.php';
 include INTERACTORS_PATH . 'view_interactor.php';
