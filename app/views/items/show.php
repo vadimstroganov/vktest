@@ -3,10 +3,10 @@
 echo json_encode([
   'status' => 'ok',
   'item' => [
-    'id'          => $item['id'],
+    'id'          => (int) $item['id'],
     'name'        => $item['name'],
     'description' => $item['description'],
-    'cost'        => $item['cost'],
+    'cost'        => (int) $item['cost'],
     'image'       => $item['image']
   ]
 ]);
