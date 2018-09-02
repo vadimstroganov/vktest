@@ -118,7 +118,16 @@ function update_action() {
 function destroy_action() {
   $id = $_POST['id'];
 
+  // вызываем ошибку, если не передан параметр id
   if (empty($id)) {
+    render_bad_request();
+    die();
+  }
+
+  $item = item_get($id);
+
+  // вызываем ошибку, если товара с таким id не существует
+  if (empty($item)) {
     render_bad_request();
     die();
   }
