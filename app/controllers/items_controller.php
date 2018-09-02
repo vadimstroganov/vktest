@@ -1,6 +1,7 @@
 <?php
 
 include MODELS_PATH . 'item.php';
+include UPLOADERS_PATH . 'image_uploader.php';
 
 function index_action() {
   $offset      = $_GET['offset'];
@@ -37,15 +38,21 @@ function index_action() {
 }
 
 function create_action() {
+  $image          = $_FILES['image'];
+  $verified_image = isset($image) ? verify_image($image) : false;
+  $image_name     = $verified_image !== false ? upload_image($verified_image) : false;
+
   $name        = $_POST['name'];
   $description = $_POST['description'];
   $cost        = $_POST['cost'];
+  $image       = $image_name !== false ? $image_name : null;
 
-  $item = item_create($name, $cost, $description);
+  $item = item_create($name, $cost, $description, $image);
 
   if (!empty($item['id'])) {
     echo render('items/show', [ 'item' => $item ]);
   } else {
+    if (isset($image)) destroy_image($image);
     render_bad_request();
   }
 }

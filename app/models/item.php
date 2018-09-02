@@ -63,6 +63,7 @@ function item_create($name, $cost, $description = null, $image = null) {
     'id'          => $insert_id,
     'name'        => $name,
     'description' => $description,
+    'cost'        => $cost,
     'image'       => $image
   ];
 }
@@ -102,6 +103,7 @@ function item_update($id, $name, $cost, $description = null, $image = null) {
     'id'          => $id,
     'name'        => $name,
     'description' => $description,
+    'cost'        => $cost,
     'image'       => $image
   ];
 }
