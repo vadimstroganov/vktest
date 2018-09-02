@@ -43,16 +43,15 @@ function items_get($limit, $offset, $sort_column, $sort_type) {
 function item_create($name, $cost, $description = null, $image = null) {
   $connection = create_db_connection();
 
-  // экранизация параметров
-  $name        = mysqli_real_escape_string($connection, $name);
-  $cost        = mysqli_real_escape_string($connection, $cost);
-  $description = mysqli_real_escape_string($connection, $description);
-  $image       = mysqli_real_escape_string($connection, $image);
+  $sql = "INSERT INTO items (name, description, cost, image) VALUES (?, ?, ?, ?)";
+  $stmt = mysqli_prepare($connection, $sql);
 
-  $sql = "INSERT INTO items (name, description, cost, image) VALUES ('$name', '$description', '$cost', '$image')";
-  mysqli_query($connection, $sql);
-  $insert_id = mysqli_insert_id($connection);
+  mysqli_stmt_bind_param($stmt, 'ssis', $name, $description, $cost, $image);
+  mysqli_stmt_execute($stmt);
 
+  $insert_id = mysqli_stmt_insert_id($stmt);
+
+  mysqli_stmt_close($stmt);
   close_db_connection($connection);
 
   if (empty($insert_id)) {
