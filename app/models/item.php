@@ -81,16 +81,13 @@ function item_create($name, $cost, $description = null, $image = null) {
 function item_update($id, $name, $cost, $description = null, $image = null) {
   $connection = create_db_connection();
 
-  // экранизация параметров
-  $id          = mysqli_real_escape_string($connection, $id);
-  $name        = mysqli_real_escape_string($connection, $name);
-  $cost        = mysqli_real_escape_string($connection, $cost);
-  $description = mysqli_real_escape_string($connection, $description);
-  $image       = mysqli_real_escape_string($connection, $image);
+  $sql = "UPDATE items SET name = ?, description = ?, cost = ?, image = ? WHERE id = ?";
+  $stmt = mysqli_prepare($connection, $sql);
 
-  $sql = "UPDATE items SET name='$name', description='$description', cost='$cost', image='$image' WHERE id=$id";
-  $bool = mysqli_query($connection, $sql);
+  mysqli_stmt_bind_param($stmt, 'ssisi', $name, $description, $cost, $image, $id);
+  $bool = mysqli_stmt_execute($stmt);
 
+  mysqli_stmt_close($stmt);
   close_db_connection($connection);
 
   // возвращаем пустой массив, если запрос завершился с ошибкой
