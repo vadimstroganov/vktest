@@ -33,6 +33,7 @@ function verify_image($temp_file) {
  * Сохранение изображения в файловую систему
  *
  * @param $file
+ *
  * @return bool|string
  */
 function upload_image($file) {
@@ -72,7 +73,7 @@ function generate_image_name() {
  */
 function image_get_extension($mime) {
   $image_mimes = '{"gif":["image\/gif"], "jpg":["image\/jpeg", "image\/pjpeg"], "png":["image\/png", "image\/x-png"], "svg":["image\/svg+xml"], "tiff":["image\/tiff"]}';
-  $image_mimes = json_decode($image_mimes,true);
+  $image_mimes = json_decode($image_mimes, true);
 
   foreach ($image_mimes as $key => $value) {
     if (array_search($mime, $value) !== false) return '.' . $key;
