@@ -70,26 +70,47 @@ function create_action() {
 }
 
 function update_action() {
-  if (empty($_POST['id'])) {
+  $id = $_POST['id'];
+
+  // вызываем ошибку, если не передан параметр id
+  if (empty($id)) {
+    render_bad_request();
+    die();
+  }
+
+  $item = item_get($id);
+
+  // вызываем ошибку, если товара с таким id не существует
+  if (empty($item)) {
     render_bad_request();
     die();
   }
 
   $image          = $_FILES['image'];
-  $verified_image = isset($image) ? verify_image($image) : false;
-  $image_name     = $verified_image !== false ? upload_image($verified_image) : false;
+  $verified_image = isset($image)             ? verify_image($image)          : false;
+  $new_image      = $verified_image !== false ? upload_image($verified_image) : false;
+  $old_image      = $item['image'];
 
-  $id          = $_POST['id'];
-  $name        = $_POST['name'];
-  $description = $_POST['description'];
-  $cost        = $_POST['cost'];
-  $image       = $image_name !== false ? $image_name : null;
+  $name        = isset($_POST['name'])        ? $_POST['name']        : $item['name'];
+  $description = isset($_POST['description']) ? $_POST['description'] : $item['description'];
+  $cost        = isset($_POST['cost'])        ? $_POST['cost']        : $item['cost'];
+  $image       = $new_image !== false         ? $new_image            : $old_image;
 
   $item = item_update($id, $name, $cost, $description, $image);
 
   if (!empty($item['id'])) {
+    // удаляем старое изображение, если появилось новое
+    if ($new_image !== false && $new_image != $old_image) {
+      destroy_image($old_image);
+    }
+
     echo render('items/show', [ 'item' => $item ]);
   } else {
+    // удаляем новое изображение, в случае неудачи выполнения запроса на обновление товара
+    if (isset($new_image)) {
+      destroy_image($new_image);
+    }
+
     render_bad_request();
   }
 }
