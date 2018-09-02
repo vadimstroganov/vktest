@@ -67,6 +67,17 @@ function item_create($name, $cost, $description = null, $image = null) {
   ];
 }
 
+/**
+ * Обновление товара в БД
+ *
+ * @param integer $id
+ * @param string $name
+ * @param integer $cost
+ * @param string $description
+ * @param string $image
+ *
+ * @return array
+ */
 function item_update($id, $name, $cost, $description = null, $image = null) {
   $connection = create_db_connection();
 
