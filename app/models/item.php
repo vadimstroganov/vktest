@@ -94,3 +94,22 @@ function item_update($id, $name, $cost, $description = null, $image = null) {
     'image'       => $image
   ];
 }
+
+/**
+ * Удаление товара из БД
+ *
+ * @param integer $id
+ *
+ * @return bool
+ */
+function item_destroy($id) {
+  $connection = create_db_connection();
+
+  $id   = mysqli_real_escape_string($connection, $id);
+  $sql  = "DELETE FROM items WHERE id=$id";
+  $bool = mysqli_query($connection, $sql);
+
+  close_db_connection($connection);
+
+  return $bool;
+}

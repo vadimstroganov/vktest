@@ -69,3 +69,14 @@ function update_action() {
     render_bad_request();
   }
 }
+
+function destroy_action() {
+  $id = $_POST['id'];
+
+  if (empty($id)) {
+    render_bad_request();
+    die();
+  }
+
+  item_destroy($id) ? render_ok() : render_bad_request();
+}
