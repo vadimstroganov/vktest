@@ -40,12 +40,14 @@ function index_action() {
 function show_action() {
   $id = $_GET['id'];
 
-  if (empty($id)) {
-    render_bad_request();
-    die();
-  }
+  // вызываем ошибку, если не передан параметр id
+  if (empty($id)) render_bad_request();
 
   $item = item_get($id);
+
+  // вызываем ошибку, если товара с таким id не существует
+  if (empty($item)) render_bad_request();
+
   echo render('items/show', [ 'item' => $item ]);
 }
 
@@ -73,18 +75,12 @@ function update_action() {
   $id = $_POST['id'];
 
   // вызываем ошибку, если не передан параметр id
-  if (empty($id)) {
-    render_bad_request();
-    die();
-  }
+  if (empty($id)) render_bad_request();
 
   $item = item_get($id);
 
   // вызываем ошибку, если товара с таким id не существует
-  if (empty($item)) {
-    render_bad_request();
-    die();
-  }
+  if (empty($item)) render_bad_request();
 
   $image          = $_FILES['image'];
   $verified_image = isset($image)             ? verify_image($image)          : false;
@@ -119,18 +115,12 @@ function destroy_action() {
   $id = $_POST['id'];
 
   // вызываем ошибку, если не передан параметр id
-  if (empty($id)) {
-    render_bad_request();
-    die();
-  }
+  if (empty($id)) render_bad_request();
 
   $item = item_get($id);
 
   // вызываем ошибку, если товара с таким id не существует
-  if (empty($item)) {
-    render_bad_request();
-    die();
-  }
+  if (empty($item)) render_bad_request();
 
   item_destroy($id) ? render_ok() : render_bad_request();
 }
