@@ -58,17 +58,22 @@ function create_action() {
 }
 
 function update_action() {
-  $id          = $_POST['id'];
-  $name        = $_POST['name'];
-  $description = $_POST['description'];
-  $cost        = $_POST['cost'];
-
-  if (empty($id)) {
+  if (empty($_POST['id'])) {
     render_bad_request();
     die();
   }
 
-  $item = item_update($id, $name, $cost, $description);
+  $image          = $_FILES['image'];
+  $verified_image = isset($image) ? verify_image($image) : false;
+  $image_name     = $verified_image !== false ? upload_image($verified_image) : false;
+
+  $id          = $_POST['id'];
+  $name        = $_POST['name'];
+  $description = $_POST['description'];
+  $cost        = $_POST['cost'];
+  $image       = $image_name !== false ? $image_name : null;
+
+  $item = item_update($id, $name, $cost, $description, $image);
 
   if (!empty($item['id'])) {
     echo render('items/show', [ 'item' => $item ]);
