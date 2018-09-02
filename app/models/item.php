@@ -31,6 +31,26 @@ function items_get($limit, $offset, $sort_column, $sort_type) {
 }
 
 /**
+ * Получение конкретного товара из БД
+ *
+ * @param $id
+ *
+ * @return array|null
+ */
+function item_get($id) {
+  $connection = create_db_connection();
+
+  $id = mysqli_real_escape_string($connection, $id);
+
+  $sql = "SELECT * FROM items WHERE id={$id} LIMIT 1";
+  $result = mysqli_query($connection, $sql);
+
+  close_db_connection($connection);
+
+  return mysqli_fetch_assoc($result);
+}
+
+/**
  * Добавление товара в БД
  *
  * @param string $name

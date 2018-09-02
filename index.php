@@ -14,6 +14,7 @@ include INTERACTORS_PATH . 'error_interactor.php';
 
 const ROUTES = [
   'GET /items'         => [ 'controller' => 'items', 'action' => 'index' ],
+  'GET /items/show'    => [ 'controller' => 'items', 'action' => 'show' ],
   'POST /items/create' => [ 'controller' => 'items', 'action' => 'create' ],
   'POST /items/update' => [ 'controller' => 'items', 'action' => 'update' ],
   'POST /items/delete' => [ 'controller' => 'items', 'action' => 'destroy' ]

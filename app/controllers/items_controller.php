@@ -37,6 +37,18 @@ function index_action() {
   echo render('items/index', [ 'items' => $items ]);
 }
 
+function show_action() {
+  $id = $_GET['id'];
+
+  if (empty($id)) {
+    render_bad_request();
+    die();
+  }
+
+  $item = item_get($id);
+  echo render('items/show', [ 'item' => $item ]);
+}
+
 function create_action() {
   $image          = $_FILES['image'];
   $verified_image = isset($image) ? verify_image($image) : false;
