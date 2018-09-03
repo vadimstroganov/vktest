@@ -1,6 +1,7 @@
 <?php
 
 define('UPLOADS_DIR', DOCROOT . 'uploads/');
+define('UPLOADS_DIR_RELATIVE', '/uploads/');
 
 /**
  * Проверка, является ли загруженный файл изображением
@@ -80,4 +81,9 @@ function image_get_extension($mime) {
   }
 
   return false;
+}
+
+function image_get_public_link($image_name) {
+  if (empty($image_name)) return null;
+  return $_ENV['UPLOADS_HOST'] . UPLOADS_DIR_RELATIVE . $image_name;
 }

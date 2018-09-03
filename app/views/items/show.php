@@ -7,6 +7,6 @@ echo json_encode([
     'name'        => $item['name'],
     'description' => $item['description'],
     'cost'        => (int) $item['cost'],
-    'image'       => $item['image']
+    'image'       => image_get_public_link($item['image'])
   ]
 ]);
