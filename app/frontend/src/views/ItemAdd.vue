@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Создание товара</h1>
+    <h1 class="ui header center aligned">Создание товара</h1>
   </div>
 </template>
