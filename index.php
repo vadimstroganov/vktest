@@ -24,4 +24,6 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 $request_url    = strtok($_SERVER['REQUEST_URI'], '?');
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
 open_url("{$request_method} {$request_url}");
