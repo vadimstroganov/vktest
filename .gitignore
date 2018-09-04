@@ -1,2 +1,17 @@
+# Ignore IDEA system files
 .idea
+
+# Inore backend upload files
 uploads
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore node modules
+app/frontend/node_modules
+
+# Ignore frontend production build
+app/frontend/dist
+
+# Ignore frontend log files
+npm-debug.log*
