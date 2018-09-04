@@ -10,7 +10,17 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: () => import('./views/Index.vue')
+      component: () => import('./views/ItemList.vue')
+    },
+    {
+      path: '/items/new',
+      name: 'addItem',
+      component: () => import('./views/ItemAdd.vue')
+    },
+    {
+      path: '/items/:id/edit',
+      name: 'editItem',
+      component: () => import('./views/ItemEdit.vue')
     }
   ]
 })
