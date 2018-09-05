@@ -17,7 +17,9 @@ function items_get($limit, $offset, $sort_column, $sort_type) {
   $sort_column = mysqli_real_escape_string($connection, $sort_column);
   $sort_type   = mysqli_real_escape_string($connection, $sort_type);
 
-  $sql    = "SELECT * FROM items ORDER BY {$sort_column} {$sort_type} LIMIT {$offset}, {$limit}";
+  $sql    = "SELECT * FROM items
+             JOIN (SELECT id FROM items ORDER BY {$sort_column} {$sort_type} LIMIT {$offset}, {$limit}) AS b
+             ON b.id = items.id";
   $result = mysqli_query($connection, $sql);
 
   close_db_connection($connection);
