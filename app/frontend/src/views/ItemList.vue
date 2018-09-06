@@ -23,12 +23,9 @@
           <div class="description">Цена - {{ item.cost / 100 }} ₽</div>
         </div>
         <div class="extra content">
-          <a>
-            <i class="pencil icon"></i> Edit
-          </a>
-          <a>
-            <i class="trash icon"></i> Destroy
-          </a>
+          <router-link :to="{ name: 'editItem', params: { id: item.id } }">
+            <i class="pencil icon"></i> Редактировать
+          </router-link>
         </div>
       </div>
 
