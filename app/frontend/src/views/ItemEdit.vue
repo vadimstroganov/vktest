@@ -1,5 +1,15 @@
 <template>
   <div>
-    <h1 class="ui header center aligned">Редактирование товара</h1>
+    <ItemForm action="update"/>
   </div>
 </template>
+
+<script>
+import ItemForm from '@/components/ItemForm.vue'
+
+export default {
+  components: {
+    ItemForm
+  }
+}
+</script>
