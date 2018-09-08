@@ -35,59 +35,59 @@
 </template>
 
 <script>
-  import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from 'vue-infinite-loading'
 
-  export default {
-    data: () => ({
-      items: [],
-      offset: 0,
-      itemsPerPage: 50,
-      end: false,
-      sortColumn: 'id',
-      sortDirection: 'asc'
-    }),
+export default {
+  data: () => ({
+    items: [],
+    offset: 0,
+    itemsPerPage: 50,
+    end: false,
+    sortColumn: 'id',
+    sortDirection: 'asc'
+  }),
 
-    components: {
-      InfiniteLoading
-    },
+  components: {
+    InfiniteLoading
+  },
 
-    methods: {
-      infiniteHandler($state) {
-        this.fetchItems().then(items => {
-          if (items.length > 0) {
-            this.offset += this.itemsPerPage
-            this.items = this.items.concat(items)
-            $state.loaded()
-          } else {
-            $state.complete()
-          }
-        })
-      },
-
-      async fetchItems () {
-        let params = {
-          sort_column: this.sortColumn,
-          sort_type: this.sortDirection,
-          offset: this.offset
-        }
-
-        let response = await this.axios.get('items', { params: params })
-        return response.data.items
-      },
-
-      setSort (column, direction) {
-        this.offset = 0
-        this.sortColumn = column
-        this.sortDirection = direction
-
-        this.items = []
-        this.fetchItems().then(items => {
+  methods: {
+    infiniteHandler($state) {
+      this.fetchItems().then(items => {
+        if (items.length > 0) {
           this.offset += this.itemsPerPage
           this.items = this.items.concat(items)
-        })
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      })
+    },
+
+    async fetchItems () {
+      let params = {
+        sort_column: this.sortColumn,
+        sort_type: this.sortDirection,
+        offset: this.offset
       }
+
+      let response = await this.axios.get('items', { params: params })
+      return response.data.items
+    },
+
+    setSort (column, direction) {
+      this.offset = 0
+      this.sortColumn = column
+      this.sortDirection = direction
+
+      this.items = []
+      this.fetchItems().then(items => {
+        this.offset += this.itemsPerPage
+        this.items = this.items.concat(items)
+      })
     }
   }
+}
 </script>
 
 <style scoped>
