@@ -6,7 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/' : 'http://prod.site'
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/' : 'http://api.vk.devdev.space/'
 
 new Vue({
   router,
