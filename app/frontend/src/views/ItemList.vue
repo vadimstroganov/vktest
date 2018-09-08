@@ -12,7 +12,7 @@
     </div>
 
     <div class="ui grid cards center aligned">
-      <div v-for="item in items" class="ui card">
+      <div v-for="item in items" class="ui card" :key="item.id">
         <div class="image">
           <img v-if="item.image" :src="item.image">
           <img v-else src="../assets/placehold.png">

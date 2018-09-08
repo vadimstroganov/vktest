@@ -106,7 +106,7 @@ export default {
         dangerMode: true
       }).then((willDelete) => {
         if (willDelete) {
-          this.deleteItem(this.$route.params.id).then(response => {
+          this.deleteItem(this.$route.params.id).then(() => {
             location.href = `/`
           })
         }
