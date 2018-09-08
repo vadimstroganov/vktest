@@ -89,3 +89,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .infinite-loading-container {
+    display: block;
+    width: 100%;
+  }
+</style>
