@@ -38,6 +38,7 @@
         </div>
 
         <button class="ui primary button" v-on:click="formHandler" v-bind:class="loading ? 'loading' : 'not-loading'">Сохранить</button>
+        <button class="ui red button" v-on:click="deleteItemHandler" v-bind:class="loading ? 'loading' : 'not-loading'">Удалить</button>
       </form>
     </div>
   </div>
@@ -84,9 +85,16 @@ export default {
         }) 
       } else {
         this.createItem(params).then(item => {
-          location.href = `/items/${item.id}/edit`;
+          location.href = `/items/${item.id}/edit`
         })
       }
+    },
+
+    deleteItemHandler (e) {
+      e.preventDefault()
+      this.deleteItem(this.$route.params.id).then(response => {
+        location.href = `/`
+      })
     },
 
     onFileSelected (e) {
@@ -131,6 +139,14 @@ export default {
 
       let response = await this.axios.post('items/update', fd, headers)
       return response.data.item
+    },
+
+    async deleteItem(id) {
+      let fd = new FormData
+      fd.append('id', id)
+
+      let response = await this.axios.post('items/delete', fd)
+      return response.data
     }
   }
 }
