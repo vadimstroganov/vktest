@@ -7,7 +7,7 @@ import VueAxios from 'vue-axios'
 import VueSwal from 'vue-swal'
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/' : 'http://api.vk.devdev.space/'
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/' : 'https://api.vk.devdev.space/'
 
 new Vue({
   router,
