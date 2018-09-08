@@ -38,7 +38,7 @@
         </div>
 
         <button class="ui primary button" v-on:click="formHandler" v-bind:class="loading ? 'loading' : 'not-loading'">Сохранить</button>
-        <button class="ui red button" v-on:click="deleteItemHandler" v-bind:class="loading ? 'loading' : 'not-loading'">Удалить</button>
+        <button class="ui red button" v-on:click="deleteItemHandler">Удалить</button>
       </form>
     </div>
   </div>
@@ -82,18 +82,34 @@ export default {
         this.updateItem(params).then(item => {
           this.form.imageUrl = item.image
           this.loading = false
+          this.$swal(`Товар - ${item.name}, обновлен`, { icon: 'success' })
         }) 
       } else {
         this.createItem(params).then(item => {
-          location.href = `/items/${item.id}/edit`
+          this.loading = false
+
+          this.$swal(`Товар - ${item.name}, создан`, {icon: 'success'}).then(() => {
+            location.href = `/items/${item.id}/edit`
+          })
         })
       }
     },
 
     deleteItemHandler (e) {
       e.preventDefault()
-      this.deleteItem(this.$route.params.id).then(response => {
-        location.href = `/`
+
+      this.$swal({
+        title: 'Подтвердите действие',
+        text: `Вы хотите удалить товар - ${this.form.name}`,
+        icon: 'warning',
+        buttons: ['Отмена', 'Удалить'],
+        dangerMode: true
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.deleteItem(this.$route.params.id).then(response => {
+            location.href = `/`
+          })
+        }
       })
     },
 
