@@ -10,6 +10,7 @@ define('UPLOADERS_PATH', DOCROOT . 'app/uploaders/');
 include INTERACTORS_PATH . 'router_interactor.php';
 include INTERACTORS_PATH . 'view_interactor.php';
 include INTERACTORS_PATH . 'db_interactor.php';
+include INTERACTORS_PATH . 'memcache_interactor.php';
 include INTERACTORS_PATH . 'error_interactor.php';
 
 const ROUTES = [
