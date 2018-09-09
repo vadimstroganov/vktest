@@ -65,3 +65,16 @@ function mc_set($key, $var, $expire = 0, $flag = 0)
 
   return $res;
 }
+
+/**
+ * Аннулирование всех существующих элементов в Memcached
+ *
+ * @return bool
+ */
+function mc_flush() {
+  $connection = create_memcache_connection();
+  $res = memcache_flush($connection);
+  close_memcache_connection($connection);
+
+  return $res;
+}
