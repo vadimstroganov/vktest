@@ -91,6 +91,9 @@ function item_create($name, $cost, $description = null, $image = null) {
     return [];
   }
 
+  // Сброс кэша
+  mc_flush();
+
   return [
     'id'          => $insert_id,
     'name'        => $name,
@@ -128,6 +131,9 @@ function item_update($id, $name, $cost, $description = null, $image = null) {
     return [];
   }
 
+  // Сброс кэша
+  mc_flush();
+
   return [
     'id'          => $id,
     'name'        => $name,
@@ -152,6 +158,9 @@ function item_destroy($id) {
   $bool = mysqli_query($connection, $sql);
 
   close_db_connection($connection);
+
+  // Сброс кэша
+  mc_flush();
 
   return $bool;
 }
