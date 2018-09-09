@@ -10,6 +10,15 @@
  * @return array
  */
 function items_get($limit, $offset, $sort_column, $sort_type) {
+  $md5        = md5("{$limit}_{$offset}_{$sort_column}_{$sort_type}");
+  $md5_prefix = 'items_get_';
+  $md5_key    = $md5_prefix . $md5;
+
+  $items = mc_get($md5_key) ?: [];
+
+  // Если обнаружили данные в кэше, то возвращаем их
+  if (!empty($items)) return $items;
+
   $connection = create_db_connection();
 
   // экранизация параметров
@@ -24,10 +33,12 @@ function items_get($limit, $offset, $sort_column, $sort_type) {
 
   close_db_connection($connection);
 
-  $items = [];
   while ($row = mysqli_fetch_assoc($result)) {
     array_push($items, $row);
   }
+
+  // Записываем результат выполнения SQL запроса в кэш
+  mc_set($md5_key, $items, 60 * 5); // expire в секундах
 
   return $items;
 }
