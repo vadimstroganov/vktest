@@ -81,7 +81,7 @@ function item_get($id) {
   // Записываем результат выполнения SQL запроса в кэш
   mc_set($key, $result, 60 * 5); // expire в секундах
 
-  return mysqli_fetch_assoc($result);
+  return $result;
 }
 
 /**
