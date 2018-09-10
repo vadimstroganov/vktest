@@ -61,14 +61,25 @@ function items_get($page, $sort_column, $sort_type) {
  * @return array|null
  */
 function item_get($id) {
+  $prefix = 'item_';
+  $key    = $prefix . $id;
+  $item   = mc_get($key);
+
+  // Если обнаружили данные в кэше, то возвращаем их
+  if (!empty($item)) return $item;
+
   $connection = create_db_connection();
 
   $id = mysqli_real_escape_string($connection, $id);
 
-  $sql = "SELECT * FROM items WHERE id={$id} LIMIT 1";
-  $result = mysqli_query($connection, $sql);
+  $sql        = "SELECT * FROM items WHERE id={$id} LIMIT 1";
+  $raw_result = mysqli_query($connection, $sql);
+  $result     = mysqli_fetch_assoc($raw_result);
 
   close_db_connection($connection);
+
+  // Записываем результат выполнения SQL запроса в кэш
+  mc_set($key, $result, 60 * 5); // expire в секундах
 
   return mysqli_fetch_assoc($result);
 }
