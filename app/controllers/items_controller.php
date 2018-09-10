@@ -13,6 +13,16 @@ function index_action() {
   $default_sort_column = 'id';
   $default_sort_type   = 'asc';
 
+  // Получаем информацию о кол-ве страниц с товарами
+  $total_pages = items_get_total_quantity();
+
+  // Если запрошенная страница, превышает максимальное кол-во страниц,
+  // сразу же отправляем пустой ответ, минуя дальнейшие запросы в кэш и БД
+  if ($page > $total_pages) {
+    echo render('items/index', [ 'items' => [], 'current_page' => $page, 'total_pages' => $total_pages ]);
+    die();
+  }
+
   // проверка на корректность выбранной колонки для сортировки
   $sort_column = strtolower($sort_column);
   if (isset($sort_column)) {
@@ -29,8 +39,7 @@ function index_action() {
     $sort_type = $default_sort_type;
   }
 
-  $items       = items_get($page, $sort_column, $sort_type);
-  $total_pages = items_get_total_quantity();
+  $items = items_get($page, $sort_column, $sort_type);
   echo render('items/index', [ 'items' => $items, 'current_page' => $page, 'total_pages' => $total_pages ]);
 }
 
