@@ -9,8 +9,8 @@
  *
  * @return array
  */
-function items_get($limit, $offset, $sort_column, $sort_type) {
-  $md5        = md5("{$limit}_{$offset}_{$sort_column}_{$sort_type}");
+function items_get($page, $sort_column, $sort_type) {
+  $md5        = md5("{$page}_{$sort_column}_{$sort_type}");
   $md5_prefix = 'items_get_';
   $md5_key    = $md5_prefix . $md5;
 
@@ -21,14 +21,22 @@ function items_get($limit, $offset, $sort_column, $sort_type) {
 
   $connection = create_db_connection();
 
-  // экранизация параметров
-  $offset      = mysqli_real_escape_string($connection, $offset);
+  // Экранизация параметров
   $sort_column = mysqli_real_escape_string($connection, $sort_column);
   $sort_type   = mysqli_real_escape_string($connection, $sort_type);
 
+  // Выставляем LIMIT по умочанию
+  $limit = 50;
+
+  // Рассчитываем offset
+  // Так как у клиента параметры нумерации начинаются не с 0, а с 1, то необходимо
+  // вычесть единицу из параметра $page (у страницы 1, offset = 0, страницы 2 = 1 * $limit и тд.)
+  $offset = ($page - 1) * $limit;
+
   $sql    = "SELECT * FROM items
-             JOIN (SELECT id FROM items ORDER BY {$sort_column} {$sort_type} LIMIT {$offset}, {$limit}) AS b
-             ON b.id = items.id";
+             JOIN (SELECT id FROM items ORDER BY {$sort_column} {$sort_type} LIMIT {$offset}, {$limit}) AS subquery
+             ON subquery.id = items.id";
+
   $result = mysqli_query($connection, $sql);
 
   close_db_connection($connection);

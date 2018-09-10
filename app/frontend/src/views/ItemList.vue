@@ -40,11 +40,10 @@ import InfiniteLoading from 'vue-infinite-loading'
 export default {
   data: () => ({
     items: [],
-    offset: 0,
-    itemsPerPage: 50,
-    end: false,
+    page: 1,
     sortColumn: 'id',
-    sortDirection: 'asc'
+    sortDirection: 'asc',
+    end: false
   }),
 
   components: {
@@ -55,7 +54,7 @@ export default {
     infiniteHandler($state) {
       this.fetchItems().then(items => {
         if (items.length > 0) {
-          this.offset += this.itemsPerPage
+          this.page += 1
           this.items = this.items.concat(items)
           $state.loaded()
         } else {
@@ -68,7 +67,7 @@ export default {
       let params = {
         sort_column: this.sortColumn,
         sort_type: this.sortDirection,
-        offset: this.offset
+        page: this.page
       }
 
       let response = await this.axios.get('items', { params: params })
@@ -76,13 +75,13 @@ export default {
     },
 
     setSort (column, direction) {
-      this.offset = 0
+      this.page = 1
       this.sortColumn = column
       this.sortDirection = direction
 
       this.items = []
       this.fetchItems().then(items => {
-        this.offset += this.itemsPerPage
+        this.page += 1
         this.items = this.items.concat(items)
       })
     }

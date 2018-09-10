@@ -4,7 +4,7 @@ include MODELS_PATH . 'item.php';
 include UPLOADERS_PATH . 'image_uploader.php';
 
 function index_action() {
-  $offset      = $_GET['offset'];
+  $page        = (int) $_GET['page'] ?: 1;
   $sort_column = $_GET['sort_column'];
   $sort_type   = $_GET['sort_type'];
 
@@ -29,11 +29,7 @@ function index_action() {
     $sort_type = $default_sort_type;
   }
 
-  // значения по умолчанию для limit и offset
-  $limit  = 50;
-  $offset = empty($offset) ? 0 : $offset;
-
-  $items = items_get($limit, $offset, $sort_column, $sort_type);
+  $items = items_get($page, $sort_column, $sort_type);
   echo render('items/index', [ 'items' => $items ]);
 }
 
