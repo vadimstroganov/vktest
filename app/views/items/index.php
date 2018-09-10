@@ -16,5 +16,9 @@ foreach ($items as $item) {
 
 echo json_encode([
   'status' => 'ok',
-  'items' => $formatted_items
+  'items' => $formatted_items,
+  'pagination' => [
+    'current_page' => $current_page,
+    'total_pages' => $total_pages
+  ]
 ]);

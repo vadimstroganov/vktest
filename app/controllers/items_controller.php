@@ -29,8 +29,9 @@ function index_action() {
     $sort_type = $default_sort_type;
   }
 
-  $items = items_get($page, $sort_column, $sort_type);
-  echo render('items/index', [ 'items' => $items ]);
+  $items       = items_get($page, $sort_column, $sort_type);
+  $total_pages = items_get_total_quantity();
+  echo render('items/index', [ 'items' => $items, 'current_page' => $page, 'total_pages' => $total_pages ]);
 }
 
 function show_action() {

@@ -1,5 +1,7 @@
 <?php
 
+define('ITEMS_DEFAULT_LIMIT', 50);
+
 /**
  * Получение списка товаров из БД
  *
@@ -26,7 +28,7 @@ function items_get($page, $sort_column, $sort_type) {
   $sort_type   = mysqli_real_escape_string($connection, $sort_type);
 
   // Выставляем LIMIT по умочанию
-  $limit = 50;
+  $limit = ITEMS_DEFAULT_LIMIT;
 
   // Рассчитываем offset
   // Так как у клиента параметры нумерации начинаются не с 0, а с 1, то необходимо
@@ -171,4 +173,32 @@ function item_destroy($id) {
   mc_flush();
 
   return $bool;
+}
+
+/**
+ * Получение кол-ва существующих страниц с товарами
+ *
+ * @return int
+ */
+function items_get_total_quantity() {
+  $key   = 'items_total_quantity';
+  $total = mc_get($key);
+
+  // Если обнаружили данные в кэше, то возвращаем их
+  if (!empty($total)) return $total;
+
+  $connection = create_db_connection();
+
+  $sql    = 'SELECT COUNT(id) FROM items';
+  $result = mysqli_query($connection, $sql);
+
+  $raw_total = (int) mysqli_fetch_row($result)[0];
+  $total     = ceil($raw_total / ITEMS_DEFAULT_LIMIT);
+
+  close_db_connection($connection);
+
+  // Записываем результат выполнения SQL запроса в кэш
+  mc_set($key, $total, 60 * 5); // expire в секундах
+
+  return $total;
 }
