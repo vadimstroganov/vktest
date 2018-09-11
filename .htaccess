@@ -6,5 +6,4 @@ RewriteCond %{REQUEST_URI} !.*\.jpg$ [NC]
 RewriteCond %{REQUEST_URI} !.*\.gif$ [NC]
 RewriteCond %{REQUEST_URI} !.*\.svg$ [NC]
 RewriteCond %{REQUEST_URI} !.*\.tiff$ [NC]
-RewriteCond %{REQUEST_URI} !=/index.php
 RewriteRule .* /index.php
