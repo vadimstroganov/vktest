@@ -128,5 +128,14 @@ function destroy_action() {
   // вызываем ошибку, если товара с таким id не существует
   if (empty($item)) render_bad_request();
 
-  item_destroy($id) ? render_ok() : render_bad_request();
+  $result = item_destroy($id);
+
+  if ($result) {
+    // удаляем изображение, если оно существует
+    if (!empty($item['image'])) destroy_image($item['image']);
+
+    render_ok();
+  } else {
+    render_bad_request();
+  }
 }
